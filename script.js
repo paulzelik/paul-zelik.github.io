@@ -151,7 +151,140 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start typing effect after a short delay
         setTimeout(typeWriter, 1000);
     }
-});
+
+    // --- NOUVEAU: Logique de traduction ---
+
+    const translations = {
+        'fr': {
+            'title': 'Paul Betinelli - Développeur Informatique',
+            'meta-desc': 'Paul Betinelli - Développeur informatique spécialisé en C/C++, Python, Java/Kotlin et administration système Linux/Windows. Expert Cisco.',
+            'nav-home': 'Accueil',
+            'nav-skills': 'Compétences',
+            'nav-projects': 'Projets',
+            'nav-contact': 'Contact',
+            'nav-home-mobile': 'Accueil',
+            'nav-skills-mobile': 'Compétences',
+            'nav-projects-mobile': 'Projets',
+            'nav-contact-mobile': 'Contact',
+            'hero-subtitle': 'Développeur Informatique & Administrateur Système',
+            'hero-description': "Passionné par le développement logiciel et l'administration système, je maîtrise un large éventail de technologies allant des langages de programmation modernes à l'infrastructure réseau Cisco.",
+            'hero-btn-projects': 'Voir mes projets',
+            'hero-btn-contact': 'Me contacter',
+            'skills-title': 'Compétences Techniques',
+            'skills-subtitle': 'Technologies et outils que je maîtrise',
+            'skills-lang-title': 'Langages de programmation',
+            'skills-sysadmin-title': 'Administration système',
+            'skills-tech-title': 'Technologies',
+            'spec-cisco-desc': "Configuration et gestion d'équipements réseau",
+            'spec-admin-desc': 'Serveurs Linux et Windows Server',
+            'spec-dev-desc': 'Applications multi-plateformes',
+            'spec-infra-desc': 'Architecture et optimisation',
+            'projects-title': 'Projets',
+            'projects-subtitle': 'Découvrez mes réalisations',
+            'project-byflash-desc': "Plateforme web moderne que je développe et maintiens. Un projet qui combine mes compétences en développement et en administration système pour offrir une expérience utilisateur optimale.",
+            'project-byflash-tag1': 'Web Development',
+            'project-byflash-tag2': 'Backend',
+            'project-byflash-tag3': 'Administration',
+            'project-byflash-link': 'Visiter le site',
+            'project-github-title': 'Projets Open Source',
+            'project-github-desc': "Retrouvez mes contributions et projets personnels sur GitHub. Du code C/C++ aux scripts Python, en passant par des applications Java/Kotlin et des outils d'administration système.",
+            'project-github-link': 'Voir sur GitHub',
+            'contact-title': 'Restons en contact',
+            'contact-subtitle': "Intéressé par une collaboration ? N'hésitez pas à me contacter !",
+            'contact-location': 'Localisation',
+            'contact-btn-email': 'Envoyer un email',
+            'footer-text': "© 2025 Paul Betinelli. Développeur passionné par l'innovation technologique.",
+            'lang-toggle-btn': 'EN'
+        },
+        'en': {
+            'title': 'Paul Betinelli - Software Developer',
+            'meta-desc': 'Paul Betinelli - Software developer specialized in C/C++, Python, Java/Kotlin and Linux/Windows system administration. Cisco expert.',
+            'nav-home': 'Home',
+            'nav-skills': 'Skills',
+            'nav-projects': 'Projects',
+            'nav-contact': 'Contact',
+            'nav-home-mobile': 'Home',
+            'nav-skills-mobile': 'Skills',
+            'nav-projects-mobile': 'Projects',
+            'nav-contact-mobile': 'Contact',
+            'hero-subtitle': 'Software Developer & System Administrator',
+            'hero-description': 'Passionate about software development and system administration, I master a wide range of technologies from modern programming languages to Cisco network infrastructure.',
+            'hero-btn-projects': 'See my projects',
+            'hero-btn-contact': 'Contact me',
+            'skills-title': 'Technical Skills',
+            'skills-subtitle': 'Technologies and tools I master',
+            'skills-lang-title': 'Programming Languages',
+            'skills-sysadmin-title': 'System Administration',
+            'skills-tech-title': 'Technologies',
+            'spec-cisco-desc': 'Configuration and management of network equipment',
+            'spec-admin-desc': 'Linux and Windows Servers',
+            'spec-dev-desc': 'Multi-platform applications',
+            'spec-infra-desc': 'Architecture and optimization',
+            'projects-title': 'Projects',
+            'projects-subtitle': 'Discover my work',
+            'project-byflash-desc': 'A modern web platform that I develop and maintain. A project that combines my development and system administration skills to offer an optimal user experience.',
+            'project-byflash-tag1': 'Web Development',
+            'project-byflash-tag2': 'Backend',
+            'project-byflash-tag3': 'Administration',
+            'project-byflash-link': 'Visit the site',
+            'project-github-title': 'Open Source Projects',
+            'project-github-desc': 'Find my contributions and personal projects on GitHub. From C/C++ code to Python scripts, including Java/Kotlin applications and system administration tools.',
+            'project-github-link': 'See on GitHub',
+            'contact-title': "Let's keep in touch",
+            'contact-subtitle': 'Interested in collaborating? Feel free to contact me!',
+            'contact-location': 'Location',
+            'contact-btn-email': 'Send an email',
+            'footer-text': '© 2025 Paul Betinelli. Developer passionate about technological innovation.',
+            'lang-toggle-btn': 'FR'
+        }
+    };
+
+    let currentLang = 'fr';
+    const langToggleButtons = document.querySelectorAll('.lang-toggle-btn');
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-key]').forEach(element => {
+            const key = element.getAttribute('data-key');
+            if (translations[lang] && translations[lang][key]) {
+                element.textContent = translations[lang][key];
+            }
+        });
+
+        // Cas spéciaux pour title et meta description
+        document.title = translations[lang]['title'];
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+            metaDesc.setAttribute('content', translations[lang]['meta-desc']);
+        }
+        
+        // Mettre à jour le texte des boutons
+        langToggleButtons.forEach(btn => {
+            btn.textContent = translations[lang]['lang-toggle-btn'];
+        });
+    }
+
+    langToggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const newLang = (currentLang === 'fr') ? 'en' : 'fr';
+            setLanguage(newLang);
+        });
+    });
+
+    // Vérifier la langue sauvegardée au chargement
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang) {
+        setLanguage(savedLang);
+    } else {
+        setLanguage(currentLang); // Définit la langue par défaut (fr)
+    }
+
+    // --- Fin de la logique de traduction ---
+
+}); // Fin de DOMContentLoaded
 
 // Utility function for smooth scrolling to sections
 function scrollToSection(sectionId) {
