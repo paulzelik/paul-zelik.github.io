@@ -46,6 +46,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-content: center;
 }
 
 .nav-logo {
@@ -59,7 +60,9 @@ body {
 
 .nav-menu {
     display: flex;
+    align-content: center;
     gap: 2rem;
+    align-items: center;
 }
 
 .nav-link {
@@ -77,7 +80,7 @@ body {
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: 1px; /* J'ai mis 1px (au lieu de 0px ou -5px) pour la coller au texte */
     left: 0;
     width: 0;
     height: 2px;
@@ -629,4 +632,37 @@ body {
 /* Smooth transitions for all interactive elements */
 * {
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* ... (Fin de votre fichier CSS existant) ... */
+
+/* Style pour le bouton de langue */
+.lang-toggle-btn {
+    background: none;
+    border: 2px solid #60a5fa;
+    color: #60a5fa;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: #60a5fa;
+    color: #0f172a;
+    transform: translateY(-2px);
+}
+
+/* Positionnement dans la nav desktop */
+.nav-menu .lang-toggle-btn {
+    margin-left: 1rem;
+}
+
+/* Positionnement dans la nav mobile */
+.nav-mobile .lang-toggle-btn {
+    margin-top: 1rem;
+    width: 100px; /* Ajustez si nécessaire */
+    align-self: flex-start; /* Aligne à gauche dans le menu mobile */
 }
